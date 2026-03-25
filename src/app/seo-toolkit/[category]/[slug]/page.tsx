@@ -68,18 +68,7 @@ const guides: Record<string, Record<string, GuideData>> = {
       title: "Kapsamlı Google Search Console Kılavuzu",
       subtitle:
         "Google Search Console'u etkili kullanarak sitenizin organik performansını ölçün, sorunları tespit edin ve sıralamanızı yükseltin.",
-      videos: [
-        {
-          title: "Google Search Console Kurulumu ve Kullanımı — Başlangıç Rehberi",
-          thumbnail: "https://img.youtube.com/vi/0UGsSTnmGXA/maxresdefault.jpg",
-          youtubeId: "0UGsSTnmGXA",
-        },
-        {
-          title: "Google Search Console'da Kullanıcı Arayüzünü Keşfet",
-          thumbnail: "https://img.youtube.com/vi/jaJRBO6gJKs/maxresdefault.jpg",
-          youtubeId: "jaJRBO6gJKs",
-        },
-      ],
+      videos: [],
       sections: [
         {
           heading: "Google Search Console Nedir? Ne İşe Yarar?",
@@ -186,18 +175,7 @@ const guides: Record<string, Record<string, GuideData>> = {
       title: "GA4 ve SEO: Organik Performans Metrikleri Kılavuzu",
       subtitle:
         "Google Analytics 4'ü SEO perspektifinden kullanarak organik trafik performansınızı ölçün ve stratejinizi veriye dayalı şekillendirin.",
-      videos: [
-        {
-          title: "GA4 ile SEO Analizi — Temel Metrikler",
-          thumbnail: "https://img.youtube.com/vi/WnbMOFl_Jxg/maxresdefault.jpg",
-          youtubeId: "WnbMOFl_Jxg",
-        },
-        {
-          title: "GA4 SEO Raporları Oluşturma",
-          thumbnail: "https://img.youtube.com/vi/XPxBsm_mPVg/maxresdefault.jpg",
-          youtubeId: "XPxBsm_mPVg",
-        },
-      ],
+      videos: [],
       sections: [
         {
           heading: "GA4, SEO İçin Neden Önemli?",
@@ -383,13 +361,7 @@ const guides: Record<string, Record<string, GuideData>> = {
       title: "Google Keyword Planner (Anahtar Kelime Planlayıcı) Kılavuzu",
       subtitle:
         "SEO ve içerik stratejinizi güçlendirmek için Google'ın ücretsiz anahtar kelime araştırma aracını etkili kullanmanın rehberi.",
-      videos: [
-        {
-          title: "Google Keyword Planner Kullanımı — Baştan Sona",
-          thumbnail: "https://img.youtube.com/vi/qlxmLiLKaBQ/maxresdefault.jpg",
-          youtubeId: "qlxmLiLKaBQ",
-        },
-      ],
+      videos: [],
       sections: [
         {
           heading: "Keyword Planner Nedir? Neden Kullanmalıyız?",
@@ -491,13 +463,7 @@ const guides: Record<string, Record<string, GuideData>> = {
       subtitle:
         "Ahrefs, Semrush ve Ubersuggest ile tanıyın, rakiplerinizin SEO stratejilerini deşifre edin.",
       type: "tabbed",
-      videos: [
-        {
-          title: "Rakip SEO Analizi Nasıl Yapılır?",
-          thumbnail: "https://img.youtube.com/vi/v1I57-_Rsvo/maxresdefault.jpg",
-          youtubeId: "v1I57-_Rsvo",
-        },
-      ],
+      videos: [],
       sections: [],
       tabs: [
         {
@@ -642,13 +608,7 @@ const guides: Record<string, Record<string, GuideData>> = {
       title: "Long-Tail (Uzun Kuyruk) Anahtar Kelime Stratejisi",
       subtitle:
         "Düşük rekabetle yüksek dönüşüm sağlamak için uzun kuyruk anahtar kelime stratejileri ve uygulama yöntemleri.",
-      videos: [
-        {
-          title: "Long-Tail Anahtar Kelime Stratejisi Rehberi",
-          thumbnail: "https://img.youtube.com/vi/a6FixER-pFg/maxresdefault.jpg",
-          youtubeId: "a6FixER-pFg",
-        },
-      ],
+      videos: [],
       sections: [
         {
           heading: "Long-Tail (Uzun Kuyruk) Anahtar Kelime Nedir?",

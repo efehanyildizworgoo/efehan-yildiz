@@ -9,7 +9,7 @@ const SITE_URL = "https://www.efehanyildiz.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Efehan Yıldız — SEO Uzmanı & Dijital Pazarlama Danışmanı",
+    default: "Dijital Pazarlama Uzmanı & Eğitmeni - Efehan Yıldız",
     template: "%s | Efehan Yıldız",
   },
   description:
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     locale: "tr_TR",
     url: SITE_URL,
     siteName: "Efehan Yıldız",
-    title: "Efehan Yıldız — SEO Uzmanı & Dijital Pazarlama Danışmanı",
+    title: "Dijital Pazarlama Uzmanı & Eğitmeni - Efehan Yıldız",
     description:
       "SEO, dijital pazarlama, teknik SEO danışmanlığı ve uygulamalı eğitimler. Veriye dayalı stratejilerle organik trafiğinizi büyütün.",
     images: [
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Efehan Yıldız — SEO Uzmanı & Dijital Pazarlama Danışmanı",
+    title: "Dijital Pazarlama Uzmanı & Eğitmeni - Efehan Yıldız",
     description:
       "SEO, dijital pazarlama danışmanlığı ve uygulamalı eğitimler.",
     images: ["/og-image.jpg"],
@@ -132,7 +132,7 @@ const jsonLd = {
       founder: { "@id": `${SITE_URL}/#person` },
       contactPoint: {
         "@type": "ContactPoint",
-        telephone: "+90-510-110-1134",
+        telephone: "+90-552-732-8055",
         contactType: "customer service",
         availableLanguage: "Turkish",
       },
@@ -148,6 +148,8 @@ export default function RootLayout({
   return (
     <html lang="tr" className="dark">
       <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
