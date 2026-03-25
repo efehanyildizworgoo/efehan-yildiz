@@ -1,0 +1,24 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "SEO Eğitimleri — Uygulamalı SEO & Dijital Pazarlama Kursları",
+  description:
+    "Efehan Yıldız'ın uygulamalı SEO eğitimleri, dijital pazarlama kursları ve mentörlük programları. Başlangıçtan ileri seviyeye kadar kapsamlı eğitim içerikleri.",
+  alternates: {
+    canonical: "https://www.efehanyildiz.com/egitimler",
+  },
+  openGraph: {
+    title: "SEO Eğitimleri — Efehan Yıldız",
+    description:
+      "Uygulamalı SEO eğitimleri, dijital pazarlama kursları ve mentörlük programları.",
+    url: "https://www.efehanyildiz.com/egitimler",
+  },
+};
+
+export default function EgitimlerLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return children;
+}

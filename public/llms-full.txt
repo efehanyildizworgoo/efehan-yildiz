@@ -1,0 +1,112 @@
+# Efehan Yıldız — SEO Uzmanı & Dijital Pazarlama Danışmanı
+
+> Efehan Yıldız, Türkiye merkezli SEO uzmanı ve dijital pazarlama danışmanıdır. Bu web sitesi, SEO danışmanlığı hizmetleri, uygulamalı eğitimler ve 50'den fazla ücretsiz SEO aracı sunmaktadır.
+
+## Hakkında
+
+Efehan Yıldız, SEO (Arama Motoru Optimizasyonu), teknik SEO, dijital pazarlama stratejisi ve WordPress optimizasyonu alanlarında uzmanlaşmış bir danışman ve eğitmendir. İşletmelere organik arama trafiğini artırma, teknik altyapılarını güçlendirme ve veriye dayalı dijital pazarlama stratejileri geliştirme konularında destek vermektedir.
+
+### Uzmanlık Alanları
+- SEO (Arama Motoru Optimizasyonu)
+- Teknik SEO Denetimi & Optimizasyonu
+- Dijital Pazarlama Stratejisi
+- WordPress SEO & Performans Optimizasyonu
+- Google Analytics 4 & Google Search Console
+- Anahtar Kelime Araştırma & İçerik Stratejisi
+- Backlink Stratejisi & Off-Page SEO
+- E-Ticaret SEO
+- Core Web Vitals Optimizasyonu
+- Schema Markup & Yapısal Veri
+
+## Hizmetler
+
+### SEO Danışmanlığı
+Kapsamlı site analizi, anahtar kelime araştırması, rakip analizi ve özelleştirilmiş SEO stratejisi. İşletmenizin organik arama sıralamalarını yükseltmek için veriye dayalı yaklaşım.
+
+### Teknik SEO Denetimi
+Site hızı optimizasyonu, Core Web Vitals iyileştirme, taranabilirlik ve indekslenme sorunlarının tespiti, robots.txt ve sitemap optimizasyonu, canonical etiket yönetimi ve yapısal veri implementasyonu.
+
+### Dijital Pazarlama Stratejisi
+İçerik pazarlama planı, sosyal medya stratejisi, dönüşüm optimizasyonu ve performans takibi ile bütünleşik dijital pazarlama çözümleri.
+
+### WordPress Optimizasyonu
+WordPress site hızı optimizasyonu, güvenlik sertleştirme, SEO eklenti konfigürasyonu (Yoast SEO, Rank Math), tema optimizasyonu ve sunucu tarafı iyileştirmeler.
+
+### SEO Eğitimi & Mentörlük
+Başlangıçtan ileri seviyeye kadar uygulamalı SEO eğitimleri. Bireysel mentörlük, kurumsal eğitim programları ve online kurslar.
+
+## SEO Toolkit — Ücretsiz SEO Araçları
+
+50'den fazla ücretsiz SEO aracı, AI destekli oluşturucular ve kapsamlı rehberler:
+
+### Analiz & Ölçüm Araçları
+SEO, GA4, GTM ve site denetim araçları. Google Search Console kılavuzu, GA4 SEO metrikleri rehberi ve SEO site denetimi checklist'i içerir.
+
+### Anahtar Kelime Araçları
+Kelime araştırma, SERP analizi ve arama hacmi araçları. Anahtar kelime araştırma rehberi ve SERP analizi kılavuzu içerir.
+
+### Teknik SEO Araçları
+Robots.txt oluşturucu, sitemap validator, schema markup araçları. Robots.txt rehberi, sitemap.xml rehberi, Core Web Vitals rehberi ve schema markup rehberi içerir.
+
+### İçerik & Meta Araçları
+Meta başlık ve açıklama optimizasyonu, SERP önizleme, AI destekli blog outline oluşturucu. Meta title/description rehberi ve içerik optimizasyonu rehberi içerir.
+
+### Local SEO & Schema Araçları
+Google Business Profile optimizasyonu, yerel arama listeleri, FAQ/How-to schema oluşturma. LocalBusiness schema oluşturucu ve Google Maps embed aracı içerir.
+
+### Backlink & Off-Page SEO
+Backlink analiz araçları, Google Disavow rehberi, sosyal sinyal stratejileri. Backlink analiz rehberi ve disavow rehberi içerir.
+
+### SEO Otomasyon ve Script'ler
+ChatGPT SEO promptları, Python SEO otomasyon scriptleri, Google Sheets araçları. ChatGPT SEO promptları rehberi ve Python SEO otomasyonu rehberi içerir.
+
+### WordPress SEO Araçları
+Yoast SEO vs Rank Math karşılaştırması, functions.php snippet arşivi (10 snippet), schema eklentileri (10 adet indirilebilir zip), wp_head optimizasyon rehberi, XML sitemap custom yapılandırma rehberi ve WordPress SEO kontrol listesi içerir.
+
+### Kaynaklar & Rehberler
+En iyi SEO blogları (Moz, Ahrefs, Neil Patel, Search Engine Journal, Ayhan Karaman), Google SEO başlangıç rehberi (9 bölüm), SEO terminoloji sözlüğü (A'dan Z'ye), indirilebilir e-kitaplar ve PDF rehberler.
+
+### Mini SEO Uygulamaları
+9 interaktif araç tek bir sayfada:
+- SERP Snippet Önizleme: Gerçek zamanlı Google arama sonucu önizlemesi
+- AI Meta Etiket Oluşturucu: Yapay zeka ile SEO uyumlu meta title ve description üretimi
+- AI İçerik Fikri Üretici: Sektör ve hedef kitleye göre blog yazısı fikri üretimi
+- AI Regex & .htaccess Oluşturucu: Apache kuralları ve regex pattern oluşturma
+- Robots.txt Oluşturucu: Özelleştirilmiş robots.txt dosyası oluşturma
+- Sitemap.xml Oluşturucu: XML sitemap şablonu oluşturma
+- Article Schema Oluşturucu: JSON-LD Article schema üretimi
+- Redirect Checker: URL yönlendirme kontrolü
+- Canonical Checker: Canonical etiket kontrolü
+
+## Rehber İçerikleri
+
+### Google SEO Başlangıç Rehberi
+Google'ın resmi SEO dokümantasyonuna dayalı kapsamlı başlangıç rehberi. SEO nedir, Google sitenizi nasıl bulur, anahtar kelime araştırması, sayfa içi SEO, teknik SEO temelleri, içerik stratejisi, off-page SEO ve backlink, ölçümleme ve takip, kaçınılması gereken hatalar konularını kapsar.
+
+### SEO Terminoloji Sözlüğü
+A'dan Z'ye tüm SEO terimlerinin Türkçe açıklamaları. Alt Tag, Anchor Text, Backlink, Canonical URL, Core Web Vitals, Crawl Budget, E-E-A-T, Featured Snippet, Keyword, Meta Description, Noindex, Organic Traffic, PageRank, Rich Snippet, Schema Markup, SERP ve daha fazlası.
+
+### Yoast SEO vs Rank Math SEO
+İki popüler WordPress SEO eklentisinin detaylı karşılaştırması. Özellik tablosu, konfigürasyon önerileri, avantajlar/dezavantajlar ve migration rehberi.
+
+### wp_head Optimizasyon Rehberi
+WordPress'te wp_head içindeki gereksiz meta tag'lerin temizlenmesi. Sürüm numarası kaldırma, RSD/WLW temizleme, emoji script'leri devre dışı bırakma ve DNS prefetch optimizasyonu.
+
+### XML Sitemap Custom Yapılandırma Rehberi
+WordPress'te XML sitemap'i özelleştirme. Varsayılan sitemap devre dışı bırakma, post type hariç tutma, öncelik/frekans ayarları, görsel/video sitemap ve Google Search Console entegrasyonu.
+
+### WordPress SEO Kontrol Listesi
+WordPress siteleri için kapsamlı teknik SEO kontrol listesi. Temel ayarlar, içerik optimizasyonu, teknik altyapı, hız ve performans, güvenlik ve izleme/raporlama bölümlerini içerir.
+
+## İletişim Bilgileri
+
+- **Web Sitesi:** https://www.efehanyildiz.com
+- **E-posta:** me@efehanyildiz.com
+- **Telefon / WhatsApp:** +90 510 110 1134
+- **LinkedIn:** https://www.linkedin.com/in/efehanyildiz/
+- **YouTube:** https://www.youtube.com/@efehanyildizcom
+- **Instagram:** https://www.instagram.com/efehanyildizcom/
+
+## Ortaklar
+
+- Worgoo (https://www.worgoo.com) — WordPress ajansı ve SEO hizmetleri

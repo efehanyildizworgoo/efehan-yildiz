@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: #060918;
+  --color-foreground: #e8eaf0;
+  --color-primary: #1d47f0;
+  --color-primary-light: #3b63f7;
+  --color-primary-dark: #1535b8;
+  --color-surface: #0c1029;
+  --color-surface-light: #131836;
+  --color-border: rgba(29, 71, 240, 0.15);
+  --color-muted: #7a82a6;
+  --font-heading: 'Gilroy', system-ui, sans-serif;
+  --font-sans: 'Gilroy', system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: 'Gilroy', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-dark);
+  border-radius: 3px;
+}
+
+/* Glow effects */
+.glow-blue {
+  box-shadow: 0 0 40px rgba(29, 71, 240, 0.15), 0 0 80px rgba(29, 71, 240, 0.05);
+}
+.glow-text {
+  text-shadow: 0 0 30px rgba(29, 71, 240, 0.3);
+}
+.gradient-border {
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(29, 71, 240, 0.4), transparent, rgba(29, 71, 240, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(29, 71, 240, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 71, 240, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Blog content styles */
+.blog-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e8eaf0;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(29, 71, 240, 0.15);
+}
+.blog-content h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #e8eaf0;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.blog-content p {
+  margin-bottom: 1.25rem;
+}
+.blog-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.blog-content li {
+  margin-bottom: 0.5rem;
+}
+.blog-content a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+.blog-content a:hover {
+  color: var(--color-primary-light);
+}
+.blog-content strong {
+  color: #e8eaf0;
+  font-weight: 600;
+}
+
+/* Hide scrollbar but keep scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
