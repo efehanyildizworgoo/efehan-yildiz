@@ -96,7 +96,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-2 text-sm text-muted">
                 <span>📍</span>
-                <span>Nilüfer, Bursa / Türkiye</span>
+                <span>Samsun / Türkiye</span>
               </li>
             </ul>
             <div className="mt-6 flex gap-2">

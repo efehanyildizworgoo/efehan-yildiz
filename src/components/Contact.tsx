@@ -74,7 +74,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">Konum</p>
-                  <p className="text-sm text-muted">Nilüfer, Bursa / Türkiye</p>
+                  <p className="text-sm text-muted">Samsun / Türkiye</p>
                 </div>
               </div>
             </div>
