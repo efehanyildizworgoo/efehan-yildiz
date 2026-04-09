@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "İletişim — SEO Danışmanlık İçin Hemen Ulaşın",
+  title: "İletişime Geçin",
   description:
     "SEO danışmanlığı, dijital pazarlama hizmeti veya eğitim talepleriniz için Efehan Yıldız ile iletişime geçin. WhatsApp, e-posta veya form ile ulaşabilirsiniz.",
   alternates: {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Hizmetler — SEO Danışmanlık, Dijital Pazarlama & Web Tasarım",
+  title: "Dijital Pazarlama Hizmetleri",
   description:
     "SEO danışmanlığı, teknik SEO denetimi, dijital pazarlama stratejisi, WordPress optimizasyonu ve web tasarım hizmetleri. İşletmenizi organik aramalarda üst sıralara taşıyın.",
   alternates: {

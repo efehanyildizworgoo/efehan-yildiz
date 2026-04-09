@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: "Dijital Pazarlama Uzmanı & Eğitmeni - Efehan Yıldız",
-    template: "%s | Efehan Yıldız",
+    template: "%s - Efehan Yıldız",
   },
   description:
     "Efehan Yıldız ile SEO, dijital pazarlama, teknik SEO danışmanlığı ve uygulamalı eğitimler. Veriye dayalı stratejilerle organik trafiğinizi büyütün.",

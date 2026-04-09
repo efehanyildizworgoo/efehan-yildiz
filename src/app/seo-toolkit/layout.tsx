@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "SEO Toolkit — Ücretsiz SEO Araçları, Rehberler & AI Destekli Araçlar",
+  title: "SEO Toolkit | Online SEO Aracı & Rehberi",
   description:
     "50+ ücretsiz SEO aracı, AI destekli meta etiket oluşturucu, SERP önizleme, teknik SEO rehberleri, WordPress SEO araçları ve daha fazlası. Efehan Yıldız tarafından hazırlanmıştır.",
   alternates: {

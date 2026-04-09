@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Hakkımda — Efehan Yıldız, SEO Uzmanı & Dijital Pazarlama Danışmanı",
+  title: "Efehan Yıldız Kimdir?",
   description:
     "Efehan Yıldız kimdir? SEO, dijital pazarlama ve web teknolojileri alanında uzmanlaşmış danışman ve eğitmenin kariyer yolculuğu, uzmanlık alanları ve başarıları.",
   alternates: {

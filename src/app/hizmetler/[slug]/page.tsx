@@ -24,11 +24,12 @@ import {
   Layers,
   ChevronDown,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { LucideIcon } from "lucide-react";
 
 interface ServiceData {
   icon: LucideIcon;
+  metaTitle: string;
   title: string;
   headline: string;
   description: string;
@@ -42,6 +43,7 @@ interface ServiceData {
 const services: Record<string, ServiceData> = {
   "seo-danismanligi": {
     icon: Search,
+    metaTitle: "SEO Danışmanlığı | SEO Hizmeti",
     title: "SEO Danışmanlığı",
     headline: "Google'da Üst Sıralara Çıkın",
     description: "Kapsamlı SEO stratejisi, teknik optimizasyon ve içerik planlaması ile markanızı dijitalde zirveye taşıyorum.",
@@ -78,6 +80,7 @@ const services: Record<string, ServiceData> = {
   },
   "web-tasarim": {
     icon: Globe,
+    metaTitle: "Web Tasarım | Kurumsal Web Tasarım",
     title: "Web Tasarım & Geliştirme",
     headline: "Modern, Hızlı ve SEO Uyumlu Web Siteleri",
     description: "WordPress altyapısıyla modern, hızlı ve SEO uyumlu web siteleri tasarlıyorum.",
@@ -113,6 +116,7 @@ const services: Record<string, ServiceData> = {
   },
   "dijital-pazarlama": {
     icon: BarChart3,
+    metaTitle: "Dijital Pazarlama Danışmanlığı",
     title: "Dijital Pazarlama Stratejisi",
     headline: "Markanızı Dijitalde Büyütün",
     description: "Markanızın dijitalde büyümesi için bütünsel strateji oluşturuyorum.",
@@ -147,6 +151,7 @@ const services: Record<string, ServiceData> = {
   },
   "google-ads": {
     icon: Megaphone,
+    metaTitle: "Google Ads Danışmanlığı | Google Ads Reklam Yönetimi",
     title: "Google Ads Yönetimi",
     headline: "Doğru Hedefleme, Maksimum Dönüşüm",
     description: "Doğru bütçe, doğru hedefleme ile maksimum dönüşüm sağlayan reklam kampanyaları.",
@@ -181,6 +186,7 @@ const services: Record<string, ServiceData> = {
   },
   "marka-danismanligi": {
     icon: PenTool,
+    metaTitle: "360° Marka Danışmanlığı | Dijital Marka Danışmanlığı",
     title: "Marka Danışmanlığı",
     headline: "Dijital Kimliğinizi Güçlendirin",
     description: "Markanızın dijital kimliğini oluşturmak ve güçlendirmek için stratejik danışmanlık.",
@@ -215,6 +221,7 @@ const services: Record<string, ServiceData> = {
   },
   "e-ticaret": {
     icon: ShoppingCart,
+    metaTitle: "E-Ticaret Danışmanlığı | A'dan Z'ye Danışmanlık",
     title: "E-Ticaret Çözümleri",
     headline: "Online Satışa Hemen Başlayın",
     description: "WooCommerce ile satışa hazır, performanslı e-ticaret siteleri kuruyorum.",
@@ -283,6 +290,12 @@ export default function ServiceDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const service = services[slug];
+
+  useEffect(() => {
+    if (service) {
+      document.title = `${service.metaTitle} - Efehan Yıldız`;
+    }
+  }, [service]);
 
   if (!service) {
     return (

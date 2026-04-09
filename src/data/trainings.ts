@@ -14,6 +14,7 @@ export interface FAQ {
 export interface Training {
   slug: string;
   icon: LucideIcon;
+  metaTitle: string;
   title: string;
   shortTitle: string;
   description: string;
@@ -37,6 +38,7 @@ export const trainings: Training[] = [
   {
     slug: "wordpress",
     icon: Globe,
+    metaTitle: "Online, Birebir WordPress Eğitimi",
     title: "Online WordPress Eğitimi",
     shortTitle: "WordPress",
     description:
@@ -161,6 +163,7 @@ export const trainings: Training[] = [
   {
     slug: "seo",
     icon: Search,
+    metaTitle: "Online, Birebir SEO Eğitimi",
     title: "Online SEO Eğitimi",
     shortTitle: "SEO",
     description:
@@ -285,6 +288,7 @@ export const trainings: Training[] = [
   {
     slug: "web-tasarim",
     icon: PenTool,
+    metaTitle: "Online, Birebir Web Tasarım Eğitimi",
     title: "Web Tasarım Eğitimi",
     shortTitle: "Web Tasarım",
     description:

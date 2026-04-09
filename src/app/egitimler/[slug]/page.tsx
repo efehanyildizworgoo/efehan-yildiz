@@ -16,7 +16,7 @@ import {
   Target,
   MessageCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getTrainingBySlug, trainings } from "@/data/trainings";
 
 export default function TrainingDetailPage() {
@@ -25,6 +25,12 @@ export default function TrainingDetailPage() {
   const training = getTrainingBySlug(slug);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [openModule, setOpenModule] = useState<number>(0);
+
+  useEffect(() => {
+    if (training) {
+      document.title = `${training.metaTitle} - Efehan Yıldız`;
+    }
+  }, [training]);
 
   if (!training) {
     return (
