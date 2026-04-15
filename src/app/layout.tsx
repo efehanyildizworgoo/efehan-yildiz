@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import FloatingContact from "@/components/FloatingContact";
+import SiteShell from "@/components/SiteShell";
 
 const SITE_URL = "https://www.efehanyildiz.com";
+/* Canonical domain: www.efehanyildiz.com — non-www redirects here via CapRover */
 const GTM_ID = "GTM-PPG82CS3";
 
 export const metadata: Metadata = {
@@ -208,10 +207,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <FloatingContact />
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );
