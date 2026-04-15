@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     images: ["/og-image.jpg"],
   },
   verification: {
-    google: "GOOGLE_SITE_VERIFICATION_CODE",
+    google: "ojO7x1neGLaSt-JFk-TnBXdGSTBivtc6Hs4Pxc7rOq0",
   },
   category: "technology",
 };
@@ -106,9 +106,10 @@ const jsonLd = {
       description:
         "SEO, teknik SEO, dijital pazarlama ve WordPress optimizasyonu alanlarında uzman danışman ve eğitmen.",
       sameAs: [
-        "https://www.linkedin.com/in/efehanyildiz/",
+        "https://www.linkedin.com/in/efehan-yildiz/",
         "https://www.youtube.com/@efehanyildizcom",
-        "https://www.instagram.com/efehanyildizcom/",
+        "https://www.instagram.com/yldzefehan",
+        "https://wa.me/905527328055",
       ],
       knowsAbout: [
         "SEO",
@@ -136,8 +137,40 @@ const jsonLd = {
         "@type": "ContactPoint",
         telephone: "+90-552-732-8055",
         contactType: "customer service",
-        availableLanguage: "Turkish",
+        availableLanguage: ["Turkish", "English"],
       },
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${SITE_URL}/#service`,
+      name: "Efehan Yıldız — SEO Danışmanlığı",
+      url: SITE_URL,
+      description:
+        "SEO danışmanlığı, teknik SEO denetimi, dijital pazarlama stratejisi ve WordPress optimizasyonu hizmetleri.",
+      provider: { "@id": `${SITE_URL}/#person` },
+      areaServed: {
+        "@type": "Country",
+        name: "Türkiye",
+      },
+      serviceType: [
+        "SEO Danışmanlığı",
+        "Teknik SEO Denetimi",
+        "Dijital Pazarlama Stratejisi",
+        "WordPress Optimizasyonu",
+        "SEO Eğitimi",
+      ],
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${SITE_URL}/#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Hizmetler", item: `${SITE_URL}/hizmetler` },
+        { "@type": "ListItem", position: 3, name: "Eğitimler", item: `${SITE_URL}/egitimler` },
+        { "@type": "ListItem", position: 4, name: "SEO Toolkit", item: `${SITE_URL}/seo-toolkit` },
+        { "@type": "ListItem", position: 5, name: "Blog", item: `${SITE_URL}/blog` },
+        { "@type": "ListItem", position: 6, name: "İletişim", item: `${SITE_URL}/iletisim` },
+      ],
     },
   ],
 };

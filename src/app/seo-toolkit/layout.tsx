@@ -12,6 +12,13 @@ export const metadata: Metadata = {
     description:
       "50+ ücretsiz SEO aracı, AI destekli araçlar, rehberler ve kapsamlı SEO kaynakları.",
     url: "https://www.efehanyildiz.com/seo-toolkit",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Efehan Yıldız — SEO Toolkit" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SEO Toolkit | Online SEO Aracı & Rehberi",
+    description: "50+ ücretsiz SEO aracı, AI destekli meta etiket oluşturucu, SERP önizleme ve teknik SEO rehberleri.",
+    images: ["/og-image.jpg"],
   },
 };
 

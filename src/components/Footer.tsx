@@ -18,8 +18,8 @@ const footerLinks = {
 };
 
 const socials = [
-  { icon: Linkedin, href: "https://www.linkedin.com/in/efehan-yildiz/", label: "LinkedIn" },
-  { icon: Instagram, href: "https://www.instagram.com/yldzefehan", label: "Instagram" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/efehan-yildiz/", label: "LinkedIn", rel: "me noopener noreferrer" },
+  { icon: Instagram, href: "https://www.instagram.com/yldzefehan", label: "Instagram", rel: "me noopener noreferrer" },
   { icon: Youtube, href: "https://www.youtube.com/@efehanyildizcom", label: "YouTube" },
   { icon: MessageCircle, href: "https://wa.me/905527328055", label: "WhatsApp" },
   { icon: Globe, href: "https://www.worgoo.com/", label: "Worgoo" },
@@ -105,7 +105,7 @@ export default function Footer() {
                   key={s.label}
                   href={s.href}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel={s.rel || "noopener noreferrer"}
                   aria-label={s.label}
                   className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-surface-light text-muted transition-all hover:border-primary hover:text-primary"
                 >

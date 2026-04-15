@@ -12,6 +12,13 @@ export const metadata: Metadata = {
     description:
       "SEO danışmanlığı ve dijital pazarlama hizmetleri için iletişime geçin.",
     url: "https://www.efehanyildiz.com/iletisim",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Efehan Yıldız — İletişim" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "İletişime Geçin",
+    description: "SEO danışmanlığı, dijital pazarlama hizmeti veya eğitim talepleriniz için iletişime geçin.",
+    images: ["/og-image.jpg"],
   },
 };
 
