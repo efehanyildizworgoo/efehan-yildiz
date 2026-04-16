@@ -18,7 +18,7 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/scripts ./scripts
 RUN chmod +x ./scripts/start.sh
-RUN npm install --no-save pg bcryptjs
+RUN npm install --no-save pg bcryptjs nodemailer
 
 EXPOSE 3000
 ENV PORT=3000

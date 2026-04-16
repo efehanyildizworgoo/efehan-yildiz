@@ -21,6 +21,7 @@ import MediaPicker from "./MediaPicker";
 interface MarkdownEditorProps {
   value: string;
   onChange: (value: string) => void;
+  onSave?: () => void;
   rows?: number;
 }
 
@@ -41,7 +42,7 @@ function markdownToHtml(md: string): string {
     .replace(/^(?!<[hbailou]|<li|<str|<em|<code|<img|<hr|<block)(.+)$/gm, '<p class="mb-3 text-sm leading-relaxed">$1</p>');
 }
 
-export default function MarkdownEditor({ value, onChange, rows = 16 }: MarkdownEditorProps) {
+export default function MarkdownEditor({ value, onChange, onSave, rows = 16 }: MarkdownEditorProps) {
   const [mode, setMode] = useState<"write" | "preview">("write");
   const [mediaPicker, setMediaPicker] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -63,6 +64,27 @@ export default function MarkdownEditor({ value, onChange, rows = 16 }: MarkdownE
       }, 0);
     },
     [value, onChange]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      const mod = e.metaKey || e.ctrlKey;
+      if (!mod) return;
+      if (e.key === "b") {
+        e.preventDefault();
+        insert("**", "**", "kalın metin");
+      } else if (e.key === "i") {
+        e.preventDefault();
+        insert("*", "*", "italik metin");
+      } else if (e.key === "k") {
+        e.preventDefault();
+        insert("[", "](https://)", "link metni");
+      } else if (e.key === "s") {
+        e.preventDefault();
+        onSave?.();
+      }
+    },
+    [insert, onSave]
   );
 
   const tools = [
@@ -146,6 +168,7 @@ export default function MarkdownEditor({ value, onChange, rows = 16 }: MarkdownE
           ref={textareaRef}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onKeyDown={handleKeyDown}
           rows={rows}
           className="w-full resize-none bg-transparent px-4 py-3 font-mono text-sm leading-relaxed text-white outline-none placeholder-[#7a82a6]/30"
           placeholder="Markdown ile yazın..."

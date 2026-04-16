@@ -140,7 +140,7 @@ export default function BlogEditPage() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-[#7a82a6]">İçerik (Markdown)</label>
-                  <MarkdownEditor value={post.content} onChange={(val) => setPost({ ...post, content: val })} rows={18} />
+                  <MarkdownEditor value={post.content} onChange={(val) => setPost({ ...post, content: val })} onSave={() => handleSave()} rows={18} />
                 </div>
               </div>
             ) : (

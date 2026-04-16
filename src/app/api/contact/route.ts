@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
+import { sendMail, newLeadEmailHtml } from "@/lib/mail";
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,6 +29,18 @@ export async function POST(req: NextRequest) {
         pipelineStage: "new",
       })
       .returning();
+
+    // Send email notification (fire-and-forget)
+    sendMail({
+      subject: `Yeni İletişim: ${name.trim()}${subject ? ` — ${subject.trim()}` : ""}`,
+      html: newLeadEmailHtml({
+        name: name.trim(),
+        email: email?.trim(),
+        phone: phone?.trim(),
+        subject: subject?.trim(),
+        message: message?.trim(),
+      }),
+    }).catch(() => {});
 
     return NextResponse.json({ success: true, id: lead.id }, { status: 201 });
   } catch {
