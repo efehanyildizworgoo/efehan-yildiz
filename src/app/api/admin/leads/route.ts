@@ -13,7 +13,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  // Public endpoint for contact form
+  const user = await getCurrentUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const body = await req.json();
   const { name, email, phone, subject, message } = body;
 
@@ -27,10 +29,10 @@ export async function POST(req: NextRequest) {
       name,
       email: email || null,
       phone: phone || null,
-      source: "form",
+      source: body.source || "manual",
       subject: subject || null,
       message: message || null,
-      pipelineStage: "new",
+      pipelineStage: body.pipelineStage || "new",
     })
     .returning();
 

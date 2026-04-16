@@ -1,6 +1,11 @@
 import type { MetadataRoute } from "next";
+import { db } from "@/lib/db";
+import { posts, services } from "@/lib/db/schema";
+import { eq, desc } from "drizzle-orm";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = "https://www.efehanyildiz.com";
   const now = new Date().toISOString();
 
@@ -110,5 +115,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...categoryPages, ...guidePages];
+  // Dynamic blog posts from DB
+  let blogPages: MetadataRoute.Sitemap = [];
+  try {
+    const publishedPosts = await db
+      .select({ slug: posts.slug, updatedAt: posts.updatedAt })
+      .from(posts)
+      .where(eq(posts.status, "published"))
+      .orderBy(desc(posts.createdAt));
+    blogPages = publishedPosts.map((p) => ({
+      url: `${siteUrl}/blog/${p.slug}`,
+      lastModified: p.updatedAt.toISOString(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }));
+  } catch {
+    // DB unavailable at build time
+  }
+
+  // Dynamic services from DB
+  let servicePages: MetadataRoute.Sitemap = [];
+  try {
+    const publishedServices = await db
+      .select({ slug: services.slug, updatedAt: services.updatedAt })
+      .from(services)
+      .where(eq(services.status, "published"));
+    servicePages = publishedServices.map((s) => ({
+      url: `${siteUrl}/hizmetler/${s.slug}`,
+      lastModified: s.updatedAt.toISOString(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
+  } catch {
+    // DB unavailable at build time
+  }
+
+  return [...staticPages, ...categoryPages, ...guidePages, ...blogPages, ...servicePages];
 }

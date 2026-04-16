@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -15,6 +16,41 @@ import {
 import { db } from "@/lib/db";
 import { posts as postsTable } from "@/lib/db/schema";
 import { eq, ne, desc } from "drizzle-orm";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const [post] = await db
+    .select({ title: postsTable.title, excerpt: postsTable.excerpt, seoTitle: postsTable.seoTitle, seoDesc: postsTable.seoDesc, featuredImage: postsTable.featuredImage })
+    .from(postsTable)
+    .where(eq(postsTable.slug, slug))
+    .limit(1);
+
+  if (!post) return { title: "Yazı Bulunamadı" };
+
+  const title = post.seoTitle || `${post.title} | Efehan Yıldız Blog`;
+  const description = post.seoDesc || post.excerpt || "";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://www.efehanyildiz.com/blog/${slug}`,
+      type: "article",
+      ...(post.featuredImage && { images: [{ url: post.featuredImage }] }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("tr-TR", {
