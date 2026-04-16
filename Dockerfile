@@ -13,11 +13,13 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-RUN echo "=== Listing standalone ===" 
 COPY --from=builder /app/.next/standalone ./standalone-tmp
-RUN ls -la /app/standalone-tmp/ && ls -la /app/standalone-tmp/app/ 2>/dev/null || echo "no /app dir" && ls -la /app/standalone-tmp/*.js 2>/dev/null || echo "no root js"
-RUN if [ -f /app/standalone-tmp/server.js ]; then cp -r /app/standalone-tmp/* /app/ ; elif [ -f /app/standalone-tmp/app/server.js ]; then cp -r /app/standalone-tmp/app/* /app/ ; else find /app/standalone-tmp -name server.js -exec dirname {} \; | head -1 | xargs -I{} sh -c 'cp -r {}/* /app/' ; fi
-RUN rm -rf /app/standalone-tmp
+RUN SERVER_DIR=$(find /app/standalone-tmp -name "server.js" -type f | head -1 | xargs dirname) \
+    && echo "Found server.js in: $SERVER_DIR" \
+    && cp -r "$SERVER_DIR"/* /app/ \
+    && cp -r "$SERVER_DIR"/.next /app/.next 2>/dev/null || true \
+    && rm -rf /app/standalone-tmp \
+    && ls -la /app/server.js
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/scripts ./scripts
