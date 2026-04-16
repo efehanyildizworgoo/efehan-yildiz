@@ -12,22 +12,9 @@ import {
   Twitter,
   ArrowRight,
 } from "lucide-react";
-
-interface BlogPost {
-  title: string;
-  category: string;
-  author: string;
-  date: string;
-  readTime: string;
-  excerpt: string;
-  toc: { id: string; title: string }[];
-  content: string;
-  relatedSlugs: string[];
-}
-
-const posts: Record<string, BlogPost> = {};
-
-const allPosts: { slug: string; title: string; category: string; date: string }[] = [];
+import { db } from "@/lib/db";
+import { posts as postsTable } from "@/lib/db/schema";
+import { eq, ne, desc } from "drizzle-orm";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("tr-TR", {
@@ -52,9 +39,14 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = posts[slug];
 
-  if (!post) {
+  const [dbPost] = await db
+    .select()
+    .from(postsTable)
+    .where(eq(postsTable.slug, slug))
+    .limit(1);
+
+  if (!dbPost) {
     return (
       <div className="flex min-h-screen items-center justify-center pt-20">
         <div className="text-center">
@@ -72,9 +64,46 @@ export default async function BlogPostPage({
     );
   }
 
-  const related = allPosts.filter(
-    (p) => post.relatedSlugs?.includes(p.slug) && p.slug !== slug
-  );
+  const post = {
+    title: dbPost.title,
+    category: dbPost.category || "",
+    author: dbPost.author || "Efehan Yıldız",
+    date: dbPost.createdAt.toISOString(),
+    readTime: dbPost.readTime || "5 dk",
+    excerpt: dbPost.excerpt || "",
+    content: dbPost.content || "",
+    toc: [] as { id: string; title: string }[],
+  };
+
+  // Extract TOC from markdown headings
+  const headingRegex = /^##\s+(.+)$/gm;
+  let match;
+  while ((match = headingRegex.exec(post.content)) !== null) {
+    const title = match[1];
+    const id = title.toLowerCase().replace(/[^a-zğüşıöç0-9]+/g, "-").replace(/^-|-$/g, "");
+    post.toc.push({ id, title });
+  }
+
+  // Convert markdown content to simple HTML
+  let htmlContent = post.content
+    .replace(/^### (.+)$/gm, '<h3 id="$1" class="text-lg font-bold text-white mt-8 mb-3">$1</h3>')
+    .replace(/^## (.+)$/gm, (_, t) => {
+      const id = t.toLowerCase().replace(/[^a-zğüşıöç0-9]+/g, "-").replace(/^-|-$/g, "");
+      return `<h2 id="${id}" class="text-xl font-bold text-white mt-10 mb-4">${t}</h2>`;
+    })
+    .replace(/^# (.+)$/gm, '<h1 class="text-2xl font-bold text-white mt-10 mb-4">$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="text-white">$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="text-primary hover:underline">$1</a>')
+    .replace(/^- (.+)$/gm, '<li class="ml-4 list-disc">$1</li>')
+    .replace(/^(?!<[hla]|<li|<str|<em)(.+)$/gm, '<p class="mb-4">$1</p>');
+
+  const related = await db
+    .select({ slug: postsTable.slug, title: postsTable.title, category: postsTable.category, date: postsTable.createdAt })
+    .from(postsTable)
+    .where(ne(postsTable.slug, slug))
+    .orderBy(desc(postsTable.createdAt))
+    .limit(3);
 
   return (
     <div className="min-h-screen pt-20">
@@ -117,7 +146,7 @@ export default async function BlogPostPage({
             </span>
             <span className="flex items-center gap-1.5">
               <Clock size={14} />
-              {post.readTime} okuma
+              {post.readTime}
             </span>
           </div>
         </div>
@@ -131,7 +160,7 @@ export default async function BlogPostPage({
             <article className="min-w-0 flex-1">
               <div
                 className="blog-content text-[15px] leading-[1.85] text-muted"
-                dangerouslySetInnerHTML={{ __html: post.content }}
+                dangerouslySetInnerHTML={{ __html: htmlContent }}
               />
 
               {/* Share */}
@@ -218,7 +247,7 @@ export default async function BlogPostPage({
                         >
                           <span
                             className={`mb-2 inline-flex rounded-full border px-2 py-0.5 text-[10px] font-medium ${
-                              categoryColors[r.category] || ""
+                              categoryColors[r.category || ""] || "bg-white/10 text-white border-white/20"
                             }`}
                           >
                             {r.category}

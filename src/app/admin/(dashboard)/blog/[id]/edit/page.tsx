@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Save, Loader2, ChevronLeft, Globe, Eye, Star } from "lucide-react";
+import { Save, Loader2, ChevronLeft, Globe, Eye, Star, ImageIcon } from "lucide-react";
+import MediaPicker from "@/components/admin/MediaPicker";
 
 interface Post {
   id: number;
@@ -27,6 +28,7 @@ export default function BlogEditPage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [activeTab, setActiveTab] = useState<"content" | "seo">("content");
+  const [mediaPicker, setMediaPicker] = useState(false);
 
   useEffect(() => {
     fetch(`/api/admin/posts/${params.id}`)
@@ -154,8 +156,16 @@ export default function BlogEditPage() {
                 <input value={post.readTime || ""} onChange={(e) => setPost({ ...post, readTime: e.target.value })} placeholder="5 dk" className="w-full rounded-lg border border-[rgba(29,71,240,0.15)] bg-[#131836] px-3 py-2 text-sm text-white outline-none focus:border-[#1d47f0]" />
               </div>
               <div>
-                <label className="mb-1.5 block text-[11px] font-medium text-[#7a82a6]">Kapak Görseli URL</label>
-                <input value={post.featuredImage || ""} onChange={(e) => setPost({ ...post, featuredImage: e.target.value })} placeholder="https://..." className="w-full rounded-lg border border-[rgba(29,71,240,0.15)] bg-[#131836] px-3 py-2 text-sm text-white outline-none focus:border-[#1d47f0]" />
+                <label className="mb-1.5 block text-[11px] font-medium text-[#7a82a6]">Kapak Görseli</label>
+                {post.featuredImage && (
+                  <img src={post.featuredImage} alt="" className="mb-2 h-24 w-full rounded-lg object-cover" />
+                )}
+                <div className="flex gap-2">
+                  <input value={post.featuredImage || ""} onChange={(e) => setPost({ ...post, featuredImage: e.target.value })} placeholder="URL veya medyadan seç" className="flex-1 rounded-lg border border-[rgba(29,71,240,0.15)] bg-[#131836] px-3 py-2 text-xs text-white outline-none focus:border-[#1d47f0]" />
+                  <button onClick={() => setMediaPicker(true)} className="flex h-9 w-9 items-center justify-center rounded-lg border border-[rgba(29,71,240,0.15)] text-[#7a82a6] hover:border-[#1d47f0]/30 hover:text-[#1d47f0]">
+                    <ImageIcon size={14} />
+                  </button>
+                </div>
               </div>
               <button onClick={() => setPost({ ...post, featured: !post.featured })} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${post.featured ? "border-yellow-500/30 bg-yellow-500/10 text-yellow-400" : "border-[rgba(29,71,240,0.15)] text-[#7a82a6] hover:text-white"}`}>
                 <Star size={14} /> {post.featured ? "Öne Çıkarılmış" : "Öne Çıkar"}
@@ -164,6 +174,11 @@ export default function BlogEditPage() {
           </div>
         </div>
       </div>
+      <MediaPicker
+        open={mediaPicker}
+        onClose={() => setMediaPicker(false)}
+        onSelect={(url) => setPost({ ...post, featuredImage: url })}
+      />
     </div>
   );
 }
