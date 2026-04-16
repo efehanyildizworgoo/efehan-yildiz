@@ -77,6 +77,9 @@ interface PageBuilderProps {
   initialStatus: string;
   initialSeoTitle: string;
   initialSeoDesc: string;
+  apiBase?: string;
+  backUrl?: string;
+  backLabel?: string;
 }
 
 function generateId() {
@@ -179,6 +182,9 @@ export default function PageBuilder({
   initialStatus,
   initialSeoTitle,
   initialSeoDesc,
+  apiBase = "/api/admin/pages",
+  backUrl = "/admin/pages",
+  backLabel = "Sayfalar",
 }: PageBuilderProps) {
   const [blocks, setBlocks] = useState<Block[]>(initialBlocks);
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
@@ -255,7 +261,7 @@ export default function PageBuilder({
     setSaving(true);
     setSaved(false);
     try {
-      await fetch(`/api/admin/pages/${pageId}`, {
+      await fetch(`${apiBase}/${pageId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -376,9 +382,9 @@ export default function PageBuilder({
         {/* Top bar */}
         <div className="flex items-center justify-between border-b border-[rgba(29,71,240,0.15)] bg-[#0c1029]/50 px-4 py-2.5 backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <a href="/admin/pages" className="flex items-center gap-1 text-xs text-[#7a82a6] hover:text-white">
+            <a href={backUrl} className="flex items-center gap-1 text-xs text-[#7a82a6] hover:text-white">
               <ChevronLeft size={14} />
-              Sayfalar
+              {backLabel}
             </a>
             <span className="text-[#7a82a6]/30">|</span>
             <span className="text-sm font-semibold text-white">{title}</span>

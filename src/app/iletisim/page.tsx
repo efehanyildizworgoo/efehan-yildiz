@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -11,6 +12,8 @@ import {
   Youtube,
   Instagram,
   Send,
+  Loader2,
+  CheckCircle,
 } from "lucide-react";
 
 const contactInfo = [
@@ -41,6 +44,31 @@ const socials = [
 ];
 
 export default function IletisimPage() {
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "SEO Danışmanlığı", message: "" });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSending(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) throw new Error("Gönderilemedi");
+      setSent(true);
+      setFormData({ name: "", email: "", subject: "SEO Danışmanlığı", message: "" });
+    } catch {
+      setError("Mesaj gönderilemedi. Lütfen tekrar deneyin.");
+    } finally {
+      setSending(false);
+    }
+  }
+
   return (
     <div className="min-h-screen pt-20">
       {/* Hero */}
@@ -74,7 +102,16 @@ export default function IletisimPage() {
               className="rounded-3xl border border-border bg-surface p-8 lg:p-10"
             >
               <h2 className="mb-6 text-2xl font-bold text-white">Mesaj Gönderin</h2>
-              <form className="space-y-5">
+              {sent ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <CheckCircle size={48} className="mb-4 text-emerald-400" />
+                  <h3 className="text-xl font-bold text-white">Mesajınız Gönderildi!</h3>
+                  <p className="mt-2 text-sm text-muted">En kısa sürede size dönüş yapacağım.</p>
+                  <button onClick={() => setSent(false)} className="mt-6 rounded-xl border border-border px-6 py-3 text-sm font-medium text-muted transition-all hover:text-white">Yeni Mesaj Gönder</button>
+                </div>
+              ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">{error}</div>}
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-muted">
@@ -82,6 +119,9 @@ export default function IletisimPage() {
                     </label>
                     <input
                       type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full rounded-xl border border-border bg-surface-light px-4 py-3 text-sm text-white placeholder-muted/50 outline-none transition-colors focus:border-primary"
                       placeholder="Adınız Soyadınız"
                     />
@@ -92,6 +132,8 @@ export default function IletisimPage() {
                     </label>
                     <input
                       type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full rounded-xl border border-border bg-surface-light px-4 py-3 text-sm text-white placeholder-muted/50 outline-none transition-colors focus:border-primary"
                       placeholder="ornek@email.com"
                     />
@@ -101,7 +143,10 @@ export default function IletisimPage() {
                   <label className="mb-2 block text-sm font-medium text-muted">
                     Konu
                   </label>
-                  <select className="w-full rounded-xl border border-border bg-surface-light px-4 py-3 text-sm text-muted outline-none transition-colors focus:border-primary">
+                  <select
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="w-full rounded-xl border border-border bg-surface-light px-4 py-3 text-sm text-muted outline-none transition-colors focus:border-primary">
                     <option>SEO Danışmanlığı</option>
                     <option>Web Tasarım</option>
                     <option>Online Eğitim</option>
@@ -115,18 +160,22 @@ export default function IletisimPage() {
                   </label>
                   <textarea
                     rows={5}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full resize-none rounded-xl border border-border bg-surface-light px-4 py-3 text-sm text-white placeholder-muted/50 outline-none transition-colors focus:border-primary"
                     placeholder="Projeniz hakkında kısaca bilgi verin..."
                   />
                 </div>
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-sm font-semibold text-white transition-all hover:bg-primary-light hover:shadow-[0_0_30px_rgba(29,71,240,0.4)]"
+                  disabled={sending}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-sm font-semibold text-white transition-all hover:bg-primary-light hover:shadow-[0_0_30px_rgba(29,71,240,0.4)] disabled:opacity-50"
                 >
-                  <Send size={16} />
-                  Mesaj Gönder
+                  {sending ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+                  {sending ? "Gönderiliyor..." : "Mesaj Gönder"}
                 </button>
               </form>
+              )}
             </motion.div>
 
             {/* Contact Info */}
