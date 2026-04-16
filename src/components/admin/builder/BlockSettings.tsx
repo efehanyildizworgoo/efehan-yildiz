@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Block, BlockType, HeroBlockData, TextBlockData, FeaturesBlockData, CtaBlockData, FaqBlockData, StatsBlockData, ProcessBlockData, ImageBlockData, SpacerBlockData, CustomHtmlBlockData, FeatureItem, FaqItem, StatItem, ProcessStep } from "@/lib/builder/types";
-import { Plus, Trash2, X } from "lucide-react";
+import { Plus, Trash2, X, ImageIcon } from "lucide-react";
+import MediaPicker from "@/components/admin/MediaPicker";
 
 interface BlockSettingsProps {
   block: Block;
@@ -178,11 +180,30 @@ function ProcessSettings({ block, onChange }: { block: Block; onChange: (b: Bloc
   );
 }
 
+function ImageUrlInput({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+  const [picker, setPicker] = useState(false);
+  return (
+    <div className="mb-3">
+      <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-[#7a82a6]">{label}</label>
+      {value && <img src={value} alt="" className="mb-2 h-20 w-full rounded-lg object-cover" />}
+      <div className="flex gap-1.5">
+        <input value={value} onChange={(e) => onChange(e.target.value)} placeholder="URL veya medyadan seç"
+          className="flex-1 rounded-lg border border-[rgba(29,71,240,0.15)] bg-[#131836] px-3 py-2 text-xs text-white outline-none focus:border-[#1d47f0]" />
+        <button type="button" onClick={() => setPicker(true)}
+          className="flex h-[34px] w-[34px] items-center justify-center rounded-lg border border-[rgba(29,71,240,0.15)] text-[#7a82a6] hover:border-[#1d47f0]/30 hover:text-[#1d47f0]">
+          <ImageIcon size={13} />
+        </button>
+      </div>
+      <MediaPicker open={picker} onClose={() => setPicker(false)} onSelect={(url) => { onChange(url); setPicker(false); }} />
+    </div>
+  );
+}
+
 function ImageSettings({ block, onChange }: { block: Block; onChange: (b: Block) => void }) {
   const d = block.data as ImageBlockData;
   return (
     <>
-      <Input label="Görsel URL" value={d.src} onChange={(v) => onChange(updateData<ImageBlockData>(block, { src: v }))} placeholder="https://..." />
+      <ImageUrlInput label="Görsel" value={d.src} onChange={(v) => onChange(updateData<ImageBlockData>(block, { src: v }))} />
       <Input label="Alt Metin" value={d.alt} onChange={(v) => onChange(updateData<ImageBlockData>(block, { alt: v }))} />
       <Select label="Genişlik" value={d.width} onChange={(v) => onChange(updateData<ImageBlockData>(block, { width: v }))} options={[{ value: "small", label: "Küçük" }, { value: "medium", label: "Orta" }, { value: "full", label: "Tam" }]} />
     </>

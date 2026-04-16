@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2, Users, Mail, Phone, MessageSquare, Calendar, Trash2, ChevronRight, Send, DollarSign } from "lucide-react";
 
 interface Lead {
@@ -31,6 +32,7 @@ const STAGES = [
 ];
 
 export default function LeadsPage() {
+  const router = useRouter();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
@@ -47,11 +49,8 @@ export default function LeadsPage() {
 
   useEffect(() => { fetchLeads(); }, []);
 
-  async function openDetail(lead: Lead) {
-    setSelectedLead(lead);
-    const res = await fetch(`/api/admin/leads/${lead.id}`);
-    const data = await res.json();
-    setNotes(data.notes || []);
+  function openDetail(lead: Lead) {
+    router.push(`/admin/leads/${lead.id}`);
   }
 
   async function updateStage(id: number, stage: string) {
