@@ -32,4 +32,4 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "echo 'Starting Next.js...' && node server.js 2>&1 || (echo 'server.js CRASHED with exit code:' $? && sleep 3600)"]
