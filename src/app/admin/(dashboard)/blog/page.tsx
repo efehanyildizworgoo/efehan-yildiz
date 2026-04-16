@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, FileText, Pencil, Trash2, Loader2, Star, Copy, Search } from "lucide-react";
+import { Plus, FileText, Pencil, Trash2, Loader2, Star, Copy, Search, CheckSquare } from "lucide-react";
 
 interface Post {
   id: number;
@@ -27,6 +27,7 @@ export default function BlogListPage() {
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [selected, setSelected] = useState<Set<number>>(new Set());
 
   async function fetchPosts() {
     const res = await fetch("/api/admin/posts");
@@ -80,6 +81,35 @@ export default function BlogListPage() {
     fetchPosts();
   }
 
+  function toggleSelect(id: number) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleSelectAll() {
+    if (selected.size === filteredPosts.length) {
+      setSelected(new Set());
+    } else {
+      setSelected(new Set(filteredPosts.map((p) => p.id)));
+    }
+  }
+
+  async function bulkDelete() {
+    if (!confirm(`${selected.size} yazıyı silmek istediğinizden emin misiniz?`)) return;
+    await Promise.all(Array.from(selected).map((id) => fetch(`/api/admin/posts/${id}`, { method: "DELETE" })));
+    setSelected(new Set());
+    fetchPosts();
+  }
+
+  async function bulkStatus(status: string) {
+    await Promise.all(Array.from(selected).map((id) => fetch(`/api/admin/posts/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status }) })));
+    setSelected(new Set());
+    fetchPosts();
+  }
+
   const filteredPosts = posts.filter((p) => {
     const matchesSearch = !search || p.title.toLowerCase().includes(search.toLowerCase()) || p.slug.toLowerCase().includes(search.toLowerCase());
     const matchesStatus = filterStatus === "all" || p.status === filterStatus;
@@ -102,6 +132,17 @@ export default function BlogListPage() {
           <Plus size={16} /> Yeni Yazı
         </button>
       </div>
+
+      {/* Bulk Actions */}
+      {selected.size > 0 && (
+        <div className="mb-4 flex items-center gap-3 rounded-xl border border-[#1d47f0]/20 bg-[#1d47f0]/5 px-4 py-2.5">
+          <span className="text-sm font-medium text-[#1d47f0]">{selected.size} seçili</span>
+          <button onClick={() => bulkStatus("published")} className="rounded-lg bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-400 hover:bg-emerald-500/20">Yayınla</button>
+          <button onClick={() => bulkStatus("draft")} className="rounded-lg bg-yellow-500/10 px-3 py-1.5 text-xs font-medium text-yellow-400 hover:bg-yellow-500/20">Taslağa Al</button>
+          <button onClick={bulkDelete} className="rounded-lg bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-400 hover:bg-red-500/20">Sil</button>
+          <button onClick={() => setSelected(new Set())} className="ml-auto text-xs text-[#7a82a6] hover:text-white">İptal</button>
+        </div>
+      )}
 
       {/* Search & Filter */}
       <div className="mb-4 flex items-center gap-3">
@@ -165,6 +206,9 @@ export default function BlogListPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-[rgba(29,71,240,0.1)]">
+                <th className="w-10 px-4 py-3.5">
+                  <input type="checkbox" checked={selected.size === filteredPosts.length && filteredPosts.length > 0} onChange={toggleSelectAll} className="h-4 w-4 rounded border-[rgba(29,71,240,0.3)] bg-transparent accent-[#1d47f0]" />
+                </th>
                 <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7a82a6]">Yazı</th>
                 <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7a82a6]">Kategori</th>
                 <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7a82a6]">Durum</th>
@@ -174,7 +218,10 @@ export default function BlogListPage() {
             </thead>
             <tbody className="divide-y divide-[rgba(29,71,240,0.08)]">
               {filteredPosts.map((post) => (
-                <tr key={post.id} className="transition-colors hover:bg-[#131836]/50">
+                <tr key={post.id} className={`transition-colors hover:bg-[#131836]/50 ${selected.has(post.id) ? "bg-[#1d47f0]/5" : ""}`}>
+                  <td className="w-10 px-4 py-4">
+                    <input type="checkbox" checked={selected.has(post.id)} onChange={() => toggleSelect(post.id)} className="h-4 w-4 rounded border-[rgba(29,71,240,0.3)] bg-transparent accent-[#1d47f0]" />
+                  </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#1d47f0]/10">

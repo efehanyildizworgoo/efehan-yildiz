@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Bell, User } from "lucide-react";
 
 interface AdminHeaderProps {
@@ -17,7 +18,7 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
             0
           </span>
         </button>
-        <div className="flex items-center gap-3 rounded-xl border border-[rgba(29,71,240,0.15)] px-3 py-2">
+        <Link href="/admin/profile" className="flex items-center gap-3 rounded-xl border border-[rgba(29,71,240,0.15)] px-3 py-2 transition-all hover:border-[#1d47f0]/30">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1d47f0]/10">
             <User size={14} className="text-[#1d47f0]" />
           </div>
@@ -25,7 +26,7 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
             <p className="text-xs font-semibold text-white">Admin</p>
             <p className="text-[10px] text-[#7a82a6]">{user.email}</p>
           </div>
-        </div>
+        </Link>
       </div>
     </header>
   );

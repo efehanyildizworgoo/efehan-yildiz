@@ -3,8 +3,27 @@ import { db } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
 import { sendMail, newLeadEmailHtml } from "@/lib/mail";
 
+// Rate limiting: 3 submissions per 5 minutes per IP
+const contactAttempts = new Map<string, { count: number; resetAt: number }>();
+
+function isContactLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = contactAttempts.get(ip);
+  if (!entry || now > entry.resetAt) {
+    contactAttempts.set(ip, { count: 1, resetAt: now + 5 * 60 * 1000 });
+    return false;
+  }
+  entry.count++;
+  return entry.count > 3;
+}
+
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    if (isContactLimited(ip)) {
+      return NextResponse.json({ error: "Çok fazla mesaj gönderildi. Lütfen biraz bekleyin." }, { status: 429 });
+    }
+
     const body = await req.json();
     const { name, email, phone, subject, message } = body;
 

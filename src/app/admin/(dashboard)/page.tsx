@@ -1,6 +1,7 @@
+import Link from "next/link";
 import { db } from "@/lib/db";
 import { posts, leads, pages, services, media } from "@/lib/db/schema";
-import { count, eq } from "drizzle-orm";
+import { count, eq, desc } from "drizzle-orm";
 import {
   FileText,
   Users,
@@ -10,6 +11,10 @@ import {
   TrendingUp,
   UserPlus,
   Clock,
+  Plus,
+  ArrowRight,
+  Home,
+  Settings,
 } from "lucide-react";
 
 async function getStats() {
@@ -18,6 +23,7 @@ async function getStats() {
   const [pageCount] = await db.select({ value: count() }).from(pages);
   const [serviceCount] = await db.select({ value: count() }).from(services);
   const [mediaCount] = await db.select({ value: count() }).from(media);
+  const [publishedPostCount] = await db.select({ value: count() }).from(posts).where(eq(posts.status, "published"));
   const [newLeadCount] = await db
     .select({ value: count() })
     .from(leads)
@@ -26,7 +32,13 @@ async function getStats() {
   const recentLeads = await db
     .select()
     .from(leads)
-    .orderBy(leads.createdAt)
+    .orderBy(desc(leads.createdAt))
+    .limit(5);
+
+  const recentPosts = await db
+    .select({ id: posts.id, title: posts.title, slug: posts.slug, status: posts.status, updatedAt: posts.updatedAt })
+    .from(posts)
+    .orderBy(desc(posts.updatedAt))
     .limit(5);
 
   return {
@@ -35,8 +47,10 @@ async function getStats() {
     pages: pageCount.value,
     services: serviceCount.value,
     media: mediaCount.value,
+    publishedPosts: publishedPostCount.value,
     newLeads: newLeadCount.value,
     recentLeads,
+    recentPosts,
   };
 }
 
@@ -193,6 +207,57 @@ export default async function AdminDashboard() {
               </div>
             ))
           )}
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        {/* Recent Posts */}
+        <div className="rounded-2xl border border-[rgba(29,71,240,0.15)] bg-[#0c1029]">
+          <div className="flex items-center justify-between border-b border-[rgba(29,71,240,0.15)] px-6 py-4">
+            <h2 className="text-sm font-bold text-white">Son Blog Yazıları</h2>
+            <Link href="/admin/blog" className="text-xs font-medium text-[#1d47f0] hover:text-[#3b63f7]">Tümü →</Link>
+          </div>
+          <div className="divide-y divide-[rgba(29,71,240,0.1)]">
+            {stats.recentPosts.length === 0 ? (
+              <div className="py-10 text-center text-sm text-[#7a82a6]/50">Henüz yazı yok</div>
+            ) : (
+              stats.recentPosts.map((post) => (
+                <Link key={post.id} href={`/admin/blog/${post.id}/edit`} className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-[#131836]/50">
+                  <div className="flex items-center gap-3">
+                    <FileText size={14} className="text-[#1d47f0]" />
+                    <span className="text-sm text-white line-clamp-1">{post.title}</span>
+                  </div>
+                  <span className={`rounded-full border px-2 py-0.5 text-[10px] font-medium ${post.status === "published" ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400" : "border-yellow-500/20 bg-yellow-500/10 text-yellow-400"}`}>
+                    {post.status === "published" ? "Yayında" : "Taslak"}
+                  </span>
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="rounded-2xl border border-[rgba(29,71,240,0.15)] bg-[#0c1029] p-6">
+          <h2 className="mb-4 text-sm font-bold text-white">Hızlı İşlemler</h2>
+          <div className="grid grid-cols-2 gap-3">
+            <Link href="/admin/blog" className="flex items-center gap-3 rounded-xl border border-[rgba(29,71,240,0.15)] p-4 text-sm text-[#7a82a6] transition-all hover:border-[#1d47f0]/30 hover:text-white">
+              <Plus size={16} className="text-[#1d47f0]" /> Yeni Yazı
+            </Link>
+            <Link href="/admin/pages" className="flex items-center gap-3 rounded-xl border border-[rgba(29,71,240,0.15)] p-4 text-sm text-[#7a82a6] transition-all hover:border-[#1d47f0]/30 hover:text-white">
+              <Layers size={16} className="text-purple-400" /> Yeni Sayfa
+            </Link>
+            <Link href="/admin/homepage" className="flex items-center gap-3 rounded-xl border border-[rgba(29,71,240,0.15)] p-4 text-sm text-[#7a82a6] transition-all hover:border-[#1d47f0]/30 hover:text-white">
+              <Home size={16} className="text-emerald-400" /> Ana Sayfa
+            </Link>
+            <Link href="/admin/settings" className="flex items-center gap-3 rounded-xl border border-[rgba(29,71,240,0.15)] p-4 text-sm text-[#7a82a6] transition-all hover:border-[#1d47f0]/30 hover:text-white">
+              <Settings size={16} className="text-orange-400" /> Ayarlar
+            </Link>
+          </div>
+          <div className="mt-4 rounded-xl border border-[rgba(29,71,240,0.15)] bg-[#131836]/50 p-4">
+            <p className="text-xs text-[#7a82a6]">
+              <span className="font-semibold text-white">{stats.publishedPosts}</span> yayında yazı · <span className="font-semibold text-white">{stats.newLeads}</span> yeni lead
+            </p>
+          </div>
         </div>
       </div>
     </div>
