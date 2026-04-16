@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Save, Loader2, ChevronLeft, Globe, Eye, Star, ImageIcon } from "lucide-react";
 import MediaPicker from "@/components/admin/MediaPicker";
+import MarkdownEditor from "@/components/admin/MarkdownEditor";
 
 interface Post {
   id: number;
@@ -55,6 +56,28 @@ export default function BlogEditPage() {
     }
     setSaving(false);
   }
+
+  // Auto-save draft every 30s
+  const autoSaveTimer = useRef<NodeJS.Timeout | null>(null);
+  const postRef = useRef(post);
+  postRef.current = post;
+
+  useEffect(() => {
+    if (!post || post.status === "published") return;
+    if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
+    autoSaveTimer.current = setTimeout(async () => {
+      const p = postRef.current;
+      if (!p) return;
+      await fetch(`/api/admin/posts/${p.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(p),
+      });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    }, 30000);
+    return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
+  }, [post]);
 
   if (loading || !post) {
     return <div className="flex items-center justify-center py-20"><Loader2 size={24} className="animate-spin text-[#1d47f0]" /></div>;
@@ -117,7 +140,7 @@ export default function BlogEditPage() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-[#7a82a6]">İçerik (Markdown)</label>
-                  <textarea value={post.content} onChange={(e) => setPost({ ...post, content: e.target.value })} rows={16} className="w-full resize-none rounded-xl border border-[rgba(29,71,240,0.15)] bg-[#131836] px-4 py-3 font-mono text-sm text-white outline-none focus:border-[#1d47f0]" />
+                  <MarkdownEditor value={post.content} onChange={(val) => setPost({ ...post, content: val })} rows={18} />
                 </div>
               </div>
             ) : (

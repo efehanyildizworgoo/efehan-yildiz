@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Plus, FileText, Pencil, Trash2, Loader2, Star } from "lucide-react";
 
 interface Post {
@@ -15,6 +16,7 @@ interface Post {
 }
 
 export default function BlogListPage() {
+  const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
@@ -57,7 +59,11 @@ export default function BlogListPage() {
     setShowCreate(false);
     setNewTitle(""); setNewSlug(""); setNewCategory("");
     setCreating(false);
-    fetchPosts();
+    if (data.post?.id) {
+      router.push(`/admin/blog/${data.post.id}/edit`);
+    } else {
+      fetchPosts();
+    }
   }
 
   async function handleDelete(id: number) {
