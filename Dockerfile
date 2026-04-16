@@ -7,19 +7,21 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
+RUN npm run build && echo "CACHE_BUST_20260416_v2"
 
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=builder /app/.next/standalone ./standalone-tmp
-RUN SERVER_DIR=$(find /app/standalone-tmp -name "server.js" -type f | head -1 | xargs dirname) \
-    && echo "Found server.js in: $SERVER_DIR" \
-    && cp -r "$SERVER_DIR"/* /app/ \
-    && cp -r "$SERVER_DIR"/.next /app/.next 2>/dev/null || true \
+RUN set -e \
+    && SERVER_JS=$(find /app/standalone-tmp -name "server.js" -type f | head -1) \
+    && echo "Found server.js at: $SERVER_JS" \
+    && SERVER_DIR=$(dirname "$SERVER_JS") \
+    && echo "Copying from: $SERVER_DIR" \
+    && cp -r "$SERVER_DIR"/. /app/ \
     && rm -rf /app/standalone-tmp \
-    && ls -la /app/server.js
+    && echo "Verifying:" && ls -la /app/server.js && ls -la /app/.next/
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/scripts ./scripts
