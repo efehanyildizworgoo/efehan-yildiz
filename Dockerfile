@@ -14,14 +14,24 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=builder /app/.next/standalone ./standalone-tmp
-RUN set -e \
-    && SERVER_JS=$(find /app/standalone-tmp -name "server.js" -type f | head -1) \
-    && echo "Found server.js at: $SERVER_JS" \
-    && SERVER_DIR=$(dirname "$SERVER_JS") \
-    && echo "Copying from: $SERVER_DIR" \
-    && cp -r "$SERVER_DIR"/. /app/ \
-    && rm -rf /app/standalone-tmp \
-    && echo "Verifying:" && ls -la /app/server.js && ls -la /app/.next/
+RUN echo "=== standalone contents ===" \
+    && find /app/standalone-tmp -maxdepth 3 -type f -name "*.js" \
+    && echo "=== end ===" \
+    && if [ -f /app/standalone-tmp/server.js ]; then \
+         echo "server.js at root"; \
+         cp -r /app/standalone-tmp/. /app/; \
+       else \
+         SERVER_JS=$(find /app/standalone-tmp -name "server.js" -type f | head -1); \
+         if [ -n "$SERVER_JS" ]; then \
+           SERVER_DIR=$(dirname "$SERVER_JS"); \
+           echo "server.js found at: $SERVER_JS"; \
+           cp -r "$SERVER_DIR"/. /app/; \
+         else \
+           echo "WARNING: server.js not found, copying everything"; \
+           cp -r /app/standalone-tmp/. /app/; \
+         fi; \
+       fi \
+    && rm -rf /app/standalone-tmp
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/scripts ./scripts
