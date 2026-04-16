@@ -2,9 +2,9 @@
 echo "=== START ==="
 echo "Node version:" && node --version
 echo "Files:" && ls /app/server.js /app/.next/server 2>&1
-echo "Running seed..."
+echo "Running DB seed..."
 node scripts/seed.js 2>&1 || echo "Seed warning"
-echo "Starting server on port $PORT..."
+echo "Starting Next.js on port $PORT..."
 node server.js 2>&1 &
 SERVER_PID=$!
 sleep 5
