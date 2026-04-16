@@ -13,10 +13,12 @@ import {
   Settings,
   Layers,
   LogOut,
+  Home,
 } from "lucide-react";
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Ana Sayfa", href: "/admin/homepage", icon: Home },
   { label: "Sayfalar", href: "/admin/pages", icon: Layers },
   { label: "Blog", href: "/admin/blog", icon: FileText },
   { label: "Hizmetler", href: "/admin/services", icon: Briefcase },

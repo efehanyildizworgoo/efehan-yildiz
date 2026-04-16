@@ -20,6 +20,9 @@ COPY --from=builder /app/scripts ./scripts
 RUN chmod +x ./scripts/start.sh
 RUN npm install --no-save pg bcryptjs nodemailer
 
+RUN mkdir -p /app/public/uploads
+VOLUME /app/public/uploads
+
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"

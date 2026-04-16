@@ -7,6 +7,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const training = getTrainingBySlug(slug);
   const title = training?.metaTitle || "Eğitim";
+  const ogImage = `/api/og?title=${encodeURIComponent(title)}&subtitle=${encodeURIComponent("Eğitimler")}`;
+
   return {
     title: `${title} - Efehan Yıldız`,
     description: training?.description || `${title} eğitimi hakkında detaylı bilgi.`,
@@ -14,6 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `${title} - Efehan Yıldız`,
       description: training?.description || `${title} eğitimi.`,
       url: `https://www.efehanyildiz.com/egitimler/${slug}`,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
   };
 }

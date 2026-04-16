@@ -33,6 +33,7 @@ export async function generateMetadata({
 
   const title = post.seoTitle || `${post.title} | Efehan Yıldız Blog`;
   const description = post.seoDesc || post.excerpt || "";
+  const ogImage = post.featuredImage || `/api/og?title=${encodeURIComponent(post.title)}&subtitle=${encodeURIComponent("Efehan Yıldız Blog")}`;
 
   return {
     title,
@@ -42,7 +43,7 @@ export async function generateMetadata({
       description,
       url: `https://www.efehanyildiz.com/blog/${slug}`,
       type: "article",
-      ...(post.featuredImage && { images: [{ url: post.featuredImage }] }),
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
