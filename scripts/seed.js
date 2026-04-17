@@ -109,6 +109,23 @@ async function main() {
         mime_type VARCHAR(100),
         created_at TIMESTAMP DEFAULT NOW() NOT NULL
       );
+      CREATE TABLE IF NOT EXISTS push_subscriptions (
+        id SERIAL PRIMARY KEY,
+        endpoint TEXT NOT NULL UNIQUE,
+        p256dh TEXT NOT NULL,
+        auth TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS push_notifications (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        body TEXT NOT NULL,
+        url TEXT,
+        icon TEXT,
+        sent_count INTEGER DEFAULT 0,
+        fail_count INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL
+      );
       CREATE TABLE IF NOT EXISTS settings (
         id SERIAL PRIMARY KEY,
         key VARCHAR(255) NOT NULL UNIQUE,

@@ -14,6 +14,7 @@ import {
   Layers,
   LogOut,
   Home,
+  Bell,
 } from "lucide-react";
 
 const navItems = [
@@ -25,6 +26,7 @@ const navItems = [
   { label: "Eğitimler", href: "/admin/trainings", icon: GraduationCap },
   { label: "Leads", href: "/admin/leads", icon: Users },
   { label: "Medya", href: "/admin/media", icon: ImageIcon },
+  { label: "Bildirimler", href: "/admin/notifications", icon: Bell },
   { label: "Ayarlar", href: "/admin/settings", icon: Settings },
 ];
 

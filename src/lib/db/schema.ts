@@ -112,6 +112,27 @@ export const media = pgTable("media", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// ─── Push Subscriptions ─────────────────────────
+export const pushSubscriptions = pgTable("push_subscriptions", {
+  id: serial("id").primaryKey(),
+  endpoint: text("endpoint").notNull().unique(),
+  p256dh: text("p256dh").notNull(),
+  auth: text("auth").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// ─── Push Notifications Log ─────────────────────
+export const pushNotifications = pgTable("push_notifications", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  body: text("body").notNull(),
+  url: text("url"),
+  icon: text("icon"),
+  sentCount: integer("sent_count").default(0),
+  failCount: integer("fail_count").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // ─── Settings ────────────────────────────────────
 export const settings = pgTable("settings", {
   id: serial("id").primaryKey(),

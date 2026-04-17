@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
+import PushNotificationPrompt from "@/components/PushNotificationPrompt";
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -19,6 +20,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       <main>{children}</main>
       <Footer />
       <FloatingContact />
+      <PushNotificationPrompt />
     </>
   );
 }
