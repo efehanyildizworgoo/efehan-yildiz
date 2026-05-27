@@ -7,6 +7,8 @@ export function middleware(req: NextRequest) {
   if (host === "efehanyildiz.com") {
     const url = req.nextUrl.clone();
     url.host = "www.efehanyildiz.com";
+    url.port = "";
+    url.protocol = "https";
     return NextResponse.redirect(url, 301);
   }
 
