@@ -1,3 +1,4 @@
+import sanitizeHtml from "sanitize-html";
 import Link from "next/link";
 import {
   Block,
@@ -191,7 +192,7 @@ function SpacerBlock({ data }: { data: SpacerBlockData }) {
 function CustomHtmlBlock({ data }: { data: CustomHtmlBlockData }) {
   return (
     <section className="py-8">
-      <div className="mx-auto max-w-4xl px-6" dangerouslySetInnerHTML={{ __html: data.html }} />
+      <div className="mx-auto max-w-4xl px-6" dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.html,{allowedTags:[...sanitizeHtml.defaults.allowedTags,"img","iframe"],allowedAttributes:{...sanitizeHtml.defaults.allowedAttributes,"*":["class","id","style"],img:["src","alt","width","height"],iframe:["src","width","height","title","loading","allowfullscreen"]},allowedIframeHostnames:["www.youtube.com","www.youtube-nocookie.com","player.vimeo.com"]}) }} />
     </section>
   );
 }

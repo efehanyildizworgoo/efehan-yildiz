@@ -1,5 +1,6 @@
 "use client";
 
+import DOMPurify from "dompurify";
 import { useState, useRef, useCallback } from "react";
 import {
   Bold,
@@ -176,7 +177,7 @@ export default function MarkdownEditor({ value, onChange, onSave, rows = 16 }: M
       ) : (
         <div
           className="min-h-[320px] px-4 py-3 text-sm leading-relaxed text-[#7a82a6]"
-          dangerouslySetInnerHTML={{ __html: markdownToHtml(value) || '<p class="text-[#7a82a6]/30">Henüz içerik yok...</p>' }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(markdownToHtml(value)) || '<p class="text-[#7a82a6]/30">Henüz içerik yok...</p>' }}
         />
       )}
 
