@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { settings } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/auth";
-import { eq } from "drizzle-orm";
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -21,16 +20,9 @@ export async function PUT(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const entries = Object.entries(body) as [string, string][];
-
-  for (const [key, value] of entries) {
-    const existing = await db.select().from(settings).where(eq(settings.key, key)).limit(1);
-    if (existing.length > 0) {
-      await db.update(settings).set({ value }).where(eq(settings.key, key));
-    } else {
-      await db.insert(settings).values({ key, value });
-    }
-  }
+  if(!body||Array.isArray(body)||typeof body!=="object")return NextResponse.json({error:"Geçersiz ayarlar"},{status:400});
+  const entries=Object.entries(body);if(entries.length>100||entries.some(([k,v])=>k.length>255||typeof v!=="string"||v.length>200000))return NextResponse.json({error:"Geçersiz ayarlar"},{status:400});
+  await db.transaction(async tx=>{for(const [key,value] of entries){await tx.insert(settings).values({key,value:value as string}).onConflictDoUpdate({target:settings.key,set:{value:value as string}})}});
 
   return NextResponse.json({ success: true });
 }

@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { unlink } from "fs/promises";
 import path from "path";
+import { uploadDir,safeUploadName } from "@/lib/uploads";
 
 export async function DELETE(
   _req: NextRequest,
@@ -19,8 +20,8 @@ export async function DELETE(
 
   // Delete file from disk
   try {
-    const filePath = path.join(process.cwd(), "public", item.url);
-    await unlink(filePath);
+    const name=item.url.startsWith("/uploads/")?item.url.slice(9):"";
+    if(safeUploadName(name))await unlink(path.join(uploadDir,name));
   } catch {
     // File may not exist, continue
   }

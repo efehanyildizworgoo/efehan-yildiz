@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { pushSubscriptions, pushNotifications } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/auth";
+import { validPushEndpoint,validPushKeys } from "@/lib/push-validation";
 import { eq } from "drizzle-orm";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const webpush = require("web-push");
@@ -20,10 +21,11 @@ export async function POST(req: NextRequest) {
 
   try {
     const { title, body, url, icon } = await req.json();
-    if (!title || !body) {
+    if (typeof title!=="string"||!title||title.length>255||typeof body!=="string"||!body||body.length>3000||[url,icon].some(v=>v!==undefined&&(typeof v!=="string"||v.length>2048||!v.startsWith("/")||v.startsWith("//")))) {
       return NextResponse.json({ error: "Başlık ve içerik gerekli" }, { status: 400 });
     }
 
+    if(!VAPID_PUBLIC||!VAPID_PRIVATE)return NextResponse.json({error:"Bildirim yapılandırılmamış"},{status:503});
     const subs = await db.select().from(pushSubscriptions);
     if (subs.length === 0) {
       return NextResponse.json({ error: "Henüz abone yok" }, { status: 400 });
@@ -35,12 +37,12 @@ export async function POST(req: NextRequest) {
 
     const results = await Promise.allSettled(
       subs.map((sub) =>
-        webpush.sendNotification(
+        !validPushEndpoint(sub.endpoint)||!validPushKeys(sub.p256dh,sub.auth)?Promise.reject(new Error("Invalid subscription")):webpush.sendNotification(
           {
             endpoint: sub.endpoint,
             keys: { p256dh: sub.p256dh, auth: sub.auth },
           },
-          payload
+          payload, {timeout:10000}
         )
       )
     );
@@ -71,8 +73,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, sentCount, failCount });
-  } catch (error) {
-    console.error("Push send error:", error);
+  } catch {
+    console.error("Push send error:");
     return NextResponse.json({ error: "Bildirim gönderilirken hata oluştu" }, { status: 500 });
   }
 }

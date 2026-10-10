@@ -4,6 +4,7 @@ const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.yandex.com",
   port: Number(process.env.SMTP_PORT) || 465,
   secure: true,
+  connectionTimeout:5000,greetingTimeout:5000,socketTimeout:10000,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -30,8 +31,8 @@ export async function sendMail({ to, subject, html }: SendMailOptions) {
       subject,
       html,
     });
-  } catch (err) {
-    console.error("Mail send error:", err);
+  } catch {
+    console.error("Mail send error:");
   }
 }
 
@@ -48,6 +49,8 @@ export function newLeadEmailHtml({
   subject?: string | null;
   message?: string | null;
 }) {
+  const esc=(s:string)=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]!));
+  name=esc(name);email=email?esc(email):email;phone=phone?esc(phone):phone;subject=subject?esc(subject):subject;message=message?esc(message):message;
   return `
 <!DOCTYPE html>
 <html>

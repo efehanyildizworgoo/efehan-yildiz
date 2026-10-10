@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
   try {
     const { topic } = await req.json();
 
-    if (!topic || typeof topic !== "string") {
+    if (!topic || typeof topic !== "string" || topic.length>500) {
       return new Response("Konu/başlık gerekli.", { status: 400 });
     }
 
@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
 
     const response = await fetch(GEMINI_URL, {
       method: "POST",
+      signal:AbortSignal.timeout(30000),
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         system_instruction: {
@@ -89,8 +90,8 @@ export async function POST(req: NextRequest) {
     });
 
     if (!response.ok) {
-      const errText = await response.text();
-      console.error("Gemini API error:", errText);
+      await response.body?.cancel();
+      console.error("Gemini API error:");
       return new Response("AI servisinde hata oluştu.", { status: 502 });
     }
 
@@ -111,6 +112,7 @@ export async function POST(req: NextRequest) {
             if (done) break;
 
             buffer += decoder.decode(value, { stream: true });
+            if(buffer.length>1000000)throw new Error("Stream limit");
             const lines = buffer.split("\n");
             buffer = lines.pop() || "";
 
@@ -131,8 +133,8 @@ export async function POST(req: NextRequest) {
               }
             }
           }
-        } catch (err) {
-          console.error("Stream error:", err);
+        } catch {
+          console.error("Stream error:");
         } finally {
           controller.close();
         }
@@ -146,8 +148,8 @@ export async function POST(req: NextRequest) {
         Connection: "keep-alive",
       },
     });
-  } catch (err) {
-    console.error("AI Blog Outline error:", err);
+  } catch {
+    console.error("AI Blog Outline error:");
     return new Response("Sunucu hatası.", { status: 500 });
   }
 }

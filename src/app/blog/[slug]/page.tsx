@@ -1,3 +1,4 @@
+import sanitizeHtml from "sanitize-html";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -122,7 +123,7 @@ export default async function BlogPostPage({
   }
 
   // Convert markdown content to simple HTML
-  let htmlContent = post.content
+  const htmlContent = post.content
     .replace(/^### (.+)$/gm, '<h3 id="$1" class="text-lg font-bold text-white mt-8 mb-3">$1</h3>')
     .replace(/^## (.+)$/gm, (_, t) => {
       const id = t.toLowerCase().replace(/[^a-zğüşıöç0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -197,7 +198,7 @@ export default async function BlogPostPage({
             <article className="min-w-0 flex-1">
               <div
                 className="blog-content text-[15px] leading-[1.85] text-muted"
-                dangerouslySetInnerHTML={{ __html: htmlContent }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(htmlContent,{allowedTags:[...sanitizeHtml.defaults.allowedTags,"img"],allowedAttributes:{...sanitizeHtml.defaults.allowedAttributes,img:["src","alt","width","height"],"*":["class","id"]}}) }}
               />
 
               {/* Share */}
