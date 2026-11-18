@@ -136,8 +136,12 @@ async function main() {
 
     // Seed admin user
     const existing = await pool.query("SELECT id FROM users WHERE email = $1", ["efe@worgoo.com"]);
-    if (existing.rows.length === 0) {
-      const hash = await hashPassword("Samsun55255.");
+    const seedPassword = process.env.SEED_ADMIN_PASSWORD;
+    if (existing.rows.length === 0 && (!seedPassword || seedPassword.length < 12)) {
+      // Güvenlik: repoda varsayılan parola tutulmaz. Parola verilmediyse yönetici oluşturulmaz.
+      console.warn("Admin user missing and SEED_ADMIN_PASSWORD not set (min 12 chars): skipping admin creation");
+    } else if (existing.rows.length === 0) {
+      const hash = await hashPassword(seedPassword);
       await pool.query(
         "INSERT INTO users (email, password_hash, name) VALUES ($1, $2, $3)",
         ["efe@worgoo.com", hash, "Efehan Yıldız"]
