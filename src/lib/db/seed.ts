@@ -15,7 +15,11 @@ async function seed() {
   const db = drizzle(pool);
 
   const email = "efe@worgoo.com";
-  const password = "Samsun55255.";
+  const password = process.env.SEED_ADMIN_PASSWORD;
+  if (!password || password.length < 12) {
+    console.error("SEED_ADMIN_PASSWORD is required (min 12 chars). No default password.");
+    process.exit(1);
+  }
 
   const existing = await db
     .select()
